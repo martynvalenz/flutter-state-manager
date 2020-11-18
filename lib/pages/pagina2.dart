@@ -44,7 +44,11 @@ class Pagina2Page extends StatelessWidget {
             MaterialButton(
               child:Text('Añadir profesión', style:TextStyle(color:Colors.white)),
               color:Colors.blue,
-              onPressed:(){}
+              onPressed:(){
+                BlocProvider.of<UsuarioBloc>(context).add(
+                  AgregarProfesion('Nueva profesion')
+                );
+              }
             )
           ],
         )
