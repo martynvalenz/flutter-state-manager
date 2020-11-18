@@ -10,6 +10,12 @@ class Pagina1Page extends StatelessWidget {
     return Scaffold(
       appBar:AppBar(
         title: Text('Pagina 1'),
+        actions: [
+          IconButton(
+            icon:Icon(Icons.exit_to_app),
+            onPressed:() => context.read<UsuarioCubit>().borrarUsuario()
+          )
+        ],
       ),
       body: BodyScaffold(),
       floatingActionButton: FloatingActionButton(
@@ -28,9 +34,9 @@ class BodyScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UsuarioCubit, UsuarioState>(
-      builder:(_, state){
+      builder:(_, state){ 
         switch(state.runtimeType){
-          case UsuarioInitial: Center(child:Text('No hay información del usuario'));
+          case UsuarioInitial: return Center(child:Text('No hay información del usuario'));
           break;
           case UsuarioActivo: return InformacionUsuario((state as UsuarioActivo).usuario);
           break;
@@ -70,7 +76,7 @@ class InformacionUsuario extends StatelessWidget {
           SizedBox(height:15),
           Text('Profesiones', style:TextStyle(fontSize: 18, fontWeight:FontWeight.bold)),
           Divider(),
-          ...usuario.profesiones.map((profesion) => ListTile(title:Text(profesion)))
+          ...usuario.profesiones.map((profesion) => ListTile(title:Text(profesion))).toList()
         ]
       )
     );
