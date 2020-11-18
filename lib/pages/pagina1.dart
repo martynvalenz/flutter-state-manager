@@ -1,15 +1,27 @@
+import 'package:estados/models/usuario.dart';
+import 'package:estados/services/usuario_service.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 
 class Pagina1Page extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final usuarioService = Provider.of<UsuarioService>(context);
     return Scaffold(
       appBar:AppBar(
         title: Text('Pagina 1'),
+        actions: [
+          IconButton(
+            icon:Icon(Icons.delete),
+            onPressed: () => usuarioService.removerUsuario()
+          ),
+        ],
       ),
-      body: InformacionUsuario(),
+      body: usuarioService.existeUsuario
+        ? InformacionUsuario(usuarioService.usuario)
+        : Center(child:Text('No hay usuario seleccionado')),
       floatingActionButton: FloatingActionButton(
         child:Icon(Icons.accessibility_new_rounded),
         onPressed: () => Navigator.pushNamed(context,'pagina2'),
@@ -19,6 +31,9 @@ class Pagina1Page extends StatelessWidget {
 }
 
 class InformacionUsuario extends StatelessWidget {
+  final Usuario usuario;
+
+  const InformacionUsuario(this.usuario);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -30,14 +45,12 @@ class InformacionUsuario extends StatelessWidget {
         children:[
           Text('General', style:TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           Divider(),
-          ListTile(title:Text('Nombre: ')),
-          ListTile(title:Text('Edad: ')),
+          ListTile(title:Text('Nombre: ${this.usuario.nombre}')),
+          ListTile(title:Text('Edad: ${this.usuario.edad}')),
           SizedBox(height:15),
           Text('Profesiones', style:TextStyle(fontSize: 18, fontWeight:FontWeight.bold)),
           Divider(),
-          ListTile(title:Text('Profesión 1')),
-          ListTile(title:Text('Profesión 1')),
-          ListTile(title:Text('Profesión 1')),
+          ...usuario.profesiones.map((profesion) => ListTile(title: Text(profesion))).toList()
         ]
       )
     );
