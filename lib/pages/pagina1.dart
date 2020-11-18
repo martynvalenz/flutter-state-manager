@@ -32,6 +32,7 @@ class InformacionUsuario extends StatelessWidget {
           Divider(),
           ListTile(title:Text('Nombre: ')),
           ListTile(title:Text('Edad: ')),
+          SizedBox(height:15),
           Text('Profesiones', style:TextStyle(fontSize: 18, fontWeight:FontWeight.bold)),
           Divider(),
           ListTile(title:Text('Profesión 1')),
